@@ -6,7 +6,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 	"time"
@@ -119,10 +118,13 @@ func (c *Client) Do(ctx context.Context, req *http.Request, v interface{}) (*Res
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatalln(err)
+		return nil, err
 	}
 
-	xml.Unmarshal(body, &v)
+	err = xml.Unmarshal(body, &v)
+	if err != nil {
+		return nil, err
+	}
 
 	response := Response{
 		Response: resp,
