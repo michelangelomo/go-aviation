@@ -56,4 +56,12 @@ For more sample snippets, check [examples](https://github.com/michelangelomo/go-
 
 ## Contributing
 
+Pull requests are welcome :hugs:
+
 ## License
+
+[MIT](https://github.com/michelangelomo/go-aviation/blob/main/LICENSE)
+
+## Authors
+
+- [@michelangelomo](https://github.com/michelangelomo)
