@@ -27,14 +27,30 @@ client := aviation.NewClient(nil)
 Some methods have custom parameters, like METAR:
 
 ```go
-opts := aviation.MetarOptions{
-	Stations: "LIBP",
-	HoursBeforeNow: "1",
-}
+opts := aviation.Options{}
+opts.SetStations("LIBP")
+opts.SetMostRecent(true)
+opts.SetHoursBeforeNow(1)
 metar, _, err := client.Metar.Get(opts)
+// LIBP 081750Z AUTO VRB02KT 9999 OVC068/// 16/14 Q1019
 ```
 
-For more sample snippet, check [examples](https://github.com/michelangelomo/go-aviation/tree/main/examples) directory.
+Options can be combined together, for example:
+
+```go
+opts = aviation.Options{}
+opts.SetStations("LIBP")
+opts.SetStartTime(time.Now().Add(-time.Hour * 12)) // last 12 hours
+opts.SetEndTime(time.Now())
+taf, _, err := client.Taf.Get(opts)
+// TAF LIBP 081700Z 0818/0918 VRB05KT 9999 BKN060 TEMPO 0900/0906 3000 BR
+// TAF LIBP 081100Z 0812/0912 02010KT 9999 SCT015 BKN060 PROB40 TEMPO 0812/0815 4000 TSRA FEW015CB BKN060 TEMPO 0815/0820 RA BECMG 0816/0818 VRB05KT
+// ...
+```
+
+You can use `opts.SetMostRecent(true)` option and only one TAF will returns.
+
+For more sample snippets, check [examples](https://github.com/michelangelomo/go-aviation/tree/main/examples) directory.
 
 ## Contributing
 
