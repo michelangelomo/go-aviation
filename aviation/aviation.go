@@ -2,11 +2,14 @@ package aviation
 
 import (
 	"context"
+	"encoding/json"
 	"encoding/xml"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 const (
@@ -31,6 +34,41 @@ type Response struct {
 	*http.Response
 }
 
+type Options struct {
+	Stations                 *string    `json:"stationString,omitempty"`
+	HoursBeforeNow           *float32   `json:"hoursBeforeNow,omitempty,string"`
+	MostRecent               *bool      `json:"mostRecent,omitempty,string"`
+	StartTime                *string    `json:"startTime,omitempty"`
+	EndTime                  *string    `json:"endTime,omitempty"`
+	MostRecentForEachStation *string    `json:"mostRecentForEachStation,omitempty,string"`
+}
+
+func (opts *Options) SetStations(stations string) {
+	opts.Stations = &stations
+}
+
+func (opts *Options) SetHoursBeforeNow(hoursBeforeNow float32) {
+	opts.HoursBeforeNow = &hoursBeforeNow
+}
+
+func (opts *Options) SetMostRecent(mostRecent bool) {
+	opts.MostRecent = &mostRecent
+}
+
+func (opts *Options) SetStartTime(startTime time.Time) {
+	s := startTime.UTC().Format(time.RFC3339)
+	opts.StartTime = &s
+}
+
+func (opts *Options) SetEndTime(endTime time.Time) {
+	e := endTime.UTC().Format(time.RFC3339)
+	opts.EndTime = &e
+}
+
+func (opts *Options) SetMostRecentForEachStation(mostRecentForEachStation string) {
+	opts.MostRecentForEachStation = &mostRecentForEachStation
+}
+
 func (c *Client) Client() *http.Client {
 	clientCopy := *c.client
 	return &clientCopy
@@ -49,8 +87,13 @@ func NewClient(httpClient *http.Client) *Client {
 	return c
 }
 
-func (c *Client) NewRequest(datasource, requestType string, opts map[string]string) (*http.Request, error) {
+func (c *Client) NewRequest(datasource, requestType string, opts Options) (*http.Request, error) {
 	req, err := http.NewRequest("GET", c.BaseURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	params, err := optsFromParams(opts)
 	if err != nil {
 		return nil, err
 	}
@@ -59,8 +102,8 @@ func (c *Client) NewRequest(datasource, requestType string, opts map[string]stri
 	q.Add("datasource", datasource)
 	q.Add("requesttype", requestType)
 	q.Add("format", "xml")
-	for k, v := range opts {
-		q.Add(k, v)
+	for k, v := range params {
+		q.Add(k, fmt.Sprintf("%s", v))
 	}
 	req.URL.RawQuery = q.Encode()
 
@@ -85,4 +128,13 @@ func (c *Client) Do(ctx context.Context, req *http.Request, v interface{}) (*Res
 		Response: resp,
 	}
 	return &response, nil
+}
+
+func optsFromParams(opts Options) (params map[string]interface{}, err error) {
+	data, err := json.Marshal(opts)
+	if err != nil {
+		return
+	}
+	err = json.Unmarshal(data, &params)
+	return
 }

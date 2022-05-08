@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/michelangelomo/go-aviation/aviation"
 )
@@ -10,11 +11,11 @@ func main() {
 	// Init client
 	client := aviation.NewClient(nil)
 	// Send request for metar
-	metarOpts := aviation.MetarOptions{
-		Stations:       "LIBP",
-		HoursBeforeNow: "1",
-	}
-	metar, _, err := client.Metar.Get(metarOpts)
+	opts := aviation.Options{}
+	opts.SetStations("LIBP")
+	opts.SetMostRecent(true)
+	opts.SetHoursBeforeNow(1)
+	metar, _, err := client.Metar.Get(opts)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -23,11 +24,13 @@ func main() {
 		fmt.Println(m.RawText)
 	}
 
-	tafOpts := aviation.TafOptions{
-		Stations:       "LIBP",
-		HoursBeforeNow: "1",
-	}
-	taf, _, err := client.Taf.Get(tafOpts)
+	// Send request for taf
+	opts = aviation.Options{}
+	opts.SetStations("LIBP")
+	opts.SetStartTime(time.Now().Add(-time.Hour * 12))
+	opts.SetEndTime(time.Now())
+	opts.SetMostRecent(true)
+	taf, _, err := client.Taf.Get(opts)
 	if err != nil {
 		fmt.Println(err)
 	}

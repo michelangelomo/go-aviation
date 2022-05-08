@@ -52,19 +52,10 @@ type Taf struct {
 	} `xml:"data"`
 }
 
-type TafOptions struct {
-	Stations       string
-	HoursBeforeNow string
-}
-
 type TafService service
 
-func (s *TafService) Get(opts TafOptions) (*Taf, *Response, error) {
-	params := map[string]string{
-		"stationString":  opts.Stations,
-		"hoursBeforeNow": opts.HoursBeforeNow,
-	}
-	req, err := s.client.NewRequest("tafs", "retrieve", params)
+func (s *TafService) Get(opts Options) (*Taf, *Response, error) {
+	req, err := s.client.NewRequest("tafs", "retrieve", opts)
 	if err != nil {
 		return nil, nil, err
 	}

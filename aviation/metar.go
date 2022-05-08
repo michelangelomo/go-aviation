@@ -49,19 +49,10 @@ type Metar struct {
 	} `xml:"data"`
 }
 
-type MetarOptions struct {
-	Stations       string
-	HoursBeforeNow string
-}
-
 type MetarService service
 
-func (s *MetarService) Get(opts MetarOptions) (*Metar, *Response, error) {
-	params := map[string]string{
-		"stationString":  opts.Stations,
-		"hoursBeforeNow": opts.HoursBeforeNow,
-	}
-	req, err := s.client.NewRequest("metars", "retrieve", params)
+func (s *MetarService) Get(opts Options) (*Metar, *Response, error) {
+	req, err := s.client.NewRequest("metars", "retrieve", opts)
 	if err != nil {
 		return nil, nil, err
 	}
