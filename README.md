@@ -3,6 +3,7 @@
 # go-aviation
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/michelangelomo/go-aviation.svg)](https://pkg.go.dev/github.com/michelangelomo/go-aviation)
+![Go](https://github.com/michelangelomo/go-aviation/actions/workflows/go.yml/badge.svg)
 
 **:construction: go-aviation is still under development**
 
