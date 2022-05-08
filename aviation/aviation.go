@@ -19,7 +19,8 @@ type Client struct {
 	service service
 
 	BaseURL url.URL
-	Metar *MetarService
+	Metar   *MetarService
+	Taf     *TafService
 }
 
 type service struct {
@@ -44,6 +45,7 @@ func NewClient(httpClient *http.Client) *Client {
 	c := &Client{client: httpClient, BaseURL: *baseURL}
 	c.service.client = c
 	c.Metar = (*MetarService)(&c.service)
+	c.Taf = (*TafService)(&c.service)
 	return c
 }
 
@@ -54,13 +56,13 @@ func (c *Client) NewRequest(datasource, requestType string, opts map[string]stri
 	}
 
 	q := req.URL.Query()
-    q.Add("datasource", datasource)
-    q.Add("requesttype", requestType)
+	q.Add("datasource", datasource)
+	q.Add("requesttype", requestType)
 	q.Add("format", "xml")
 	for k, v := range opts {
 		q.Add(k, v)
 	}
-    req.URL.RawQuery = q.Encode()
+	req.URL.RawQuery = q.Encode()
 
 	return req, nil
 }
@@ -76,7 +78,7 @@ func (c *Client) Do(ctx context.Context, req *http.Request, v interface{}) (*Res
 	if err != nil {
 		log.Fatalln(err)
 	}
-	
+
 	xml.Unmarshal(body, &v)
 
 	response := Response{

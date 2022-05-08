@@ -5,7 +5,7 @@ import (
 )
 
 type Metar struct {
-	DataSource                struct {
+	DataSource struct {
 		Text string `xml:",chardata"`
 		Name string `xml:"name,attr"`
 	} `xml:"data_source"`
@@ -50,7 +50,7 @@ type Metar struct {
 }
 
 type MetarOptions struct {
-	Stations string
+	Stations       string
 	HoursBeforeNow string
 }
 
@@ -58,7 +58,7 @@ type MetarService service
 
 func (s *MetarService) Get(opts MetarOptions) (*Metar, *Response, error) {
 	params := map[string]string{
-		"stationString": opts.Stations,
+		"stationString":  opts.Stations,
 		"hoursBeforeNow": opts.HoursBeforeNow,
 	}
 	req, err := s.client.NewRequest("metars", "retrieve", params)
