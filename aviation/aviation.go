@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	baseUrl = "https://www.aviationweather.gov/adds/dataserver_current/httpparam"
+	baseURL = "https://www.aviationweather.gov/adds/dataserver_current/httpparam"
 )
 
 type Client struct {
@@ -77,7 +77,7 @@ func NewClient(httpClient *http.Client) *Client {
 	if httpClient == nil {
 		httpClient = &http.Client{}
 	}
-	baseURL, _ := url.Parse(baseUrl)
+	baseURL, _ := url.Parse(baseURL)
 
 	c := &Client{client: httpClient, BaseURL: *baseURL}
 	c.service.client = c
