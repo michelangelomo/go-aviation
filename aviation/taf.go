@@ -4,6 +4,7 @@ import (
 	"context"
 )
 
+// Taf represents a metar object.
 type Taf struct {
 	DataSource struct {
 		Text string `xml:",chardata"`
@@ -52,8 +53,10 @@ type Taf struct {
 	} `xml:"data"`
 }
 
+// TafService manages communication with the TAF API of client.
 type TafService service
 
+// Get returns a Taf object.
 func (s *TafService) Get(opts Options) (*Taf, *Response, error) {
 	req, err := s.client.NewRequest("tafs", "retrieve", opts)
 	if err != nil {

@@ -4,6 +4,7 @@ import (
 	"context"
 )
 
+// Metar represents a metar object.
 type Metar struct {
 	DataSource struct {
 		Text string `xml:",chardata"`
@@ -49,8 +50,10 @@ type Metar struct {
 	} `xml:"data"`
 }
 
+// MetarService manages communication with the Metar API of client.
 type MetarService service
 
+// Get returns a Metar object.
 func (s *MetarService) Get(opts Options) (*Metar, *Response, error) {
 	req, err := s.client.NewRequest("metars", "retrieve", opts)
 	if err != nil {
