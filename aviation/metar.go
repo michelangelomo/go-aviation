@@ -14,22 +14,26 @@ type Metar struct {
 	Data        Data       `xml:"data,omitempty"`
 }
 
+// DataSource is part of metar object.
 type DataSource struct {
 	Text string `xml:",chardata"`
 	Name string `xml:"name,attr,omitempty"`
 }
 
+// Request is part of metar object.
 type Request struct {
 	Text string `xml:",chardata"`
 	Type string `xml:"type,attr,omitempty"`
 }
 
+// Data is part of metar object.
 type Data struct {
 	Text       string  `xml:",chardata"`
 	NumResults string  `xml:"num_results,attr,omitempty"`
 	METAR      []METAR `xml:"METAR,omitempty"`
 }
 
+// METAR is part of data object.
 type METAR struct {
 	Text                string              `xml:",chardata"`
 	RawText             string              `xml:"raw_text,omitempty"`
@@ -51,11 +55,13 @@ type METAR struct {
 	ElevationM          string              `xml:"elevation_m,omitempty"`
 }
 
+// QualityControlFlags is part of metar object.
 type QualityControlFlags struct {
 	Text string `xml:",chardata"`
 	Auto string `xml:"auto,omitempty"`
 }
 
+// SkyCondition is part of metar object.
 type SkyCondition struct {
 	Text           string `xml:",chardata"`
 	SkyCover       string `xml:"sky_cover,attr,omitempty"`
