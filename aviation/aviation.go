@@ -25,8 +25,8 @@ type Client struct {
 	BaseURL url.URL
 
 	// Services used to interact with the AWC API.
-	Metar   *MetarService
-	Taf     *TafService
+	Metar *MetarService
+	Taf   *TafService
 }
 
 type service struct {
@@ -44,12 +44,12 @@ type Response struct {
 // * https://www.aviationweather.gov/dataserver/example?datatype=taf
 // * https://www.aviationweather.gov/dataserver/example?datatype=sigmet
 type Options struct {
-	Stations                 *string    `json:"stationString,omitempty"`
-	HoursBeforeNow           *float32   `json:"hoursBeforeNow,omitempty,string"`
-	MostRecent               *bool      `json:"mostRecent,omitempty,string"`
-	StartTime                *string    `json:"startTime,omitempty"`
-	EndTime                  *string    `json:"endTime,omitempty"`
-	MostRecentForEachStation *string    `json:"mostRecentForEachStation,omitempty,string"`
+	Stations                 *string  `json:"stationString,omitempty"`
+	HoursBeforeNow           *float32 `json:"hoursBeforeNow,omitempty,string"`
+	MostRecent               *bool    `json:"mostRecent,omitempty,string"`
+	StartTime                *string  `json:"startTime,omitempty"`
+	EndTime                  *string  `json:"endTime,omitempty"`
+	MostRecentForEachStation *string  `json:"mostRecentForEachStation,omitempty,string"`
 }
 
 // SetStations populates Options field.
