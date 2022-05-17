@@ -33,12 +33,12 @@ type service struct {
 	client *Client
 }
 
-// Response is the AWC API response.
+// Response is the AWG API response.
 type Response struct {
 	*http.Response
 }
 
-// Response is the AWC metadata response.
+// AWG is the AWG metadata response.
 type AWG struct {
 	DataSource  DataSource `xml:"data_source,omitempty"`
 	Request     Request    `xml:"request,omitempty"`
