@@ -3,6 +3,8 @@
 # go-aviation
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/michelangelomo/go-aviation.svg)](https://pkg.go.dev/github.com/michelangelomo/go-aviation)
+[![Go Report Card](https://goreportcard.com/badge/github.com/michelangelomo/go-aviation)](https://goreportcard.com/report/github.com/michelangelomo/go-aviation)
+[![codebeat badge](https://codebeat.co/badges/bbc89b3b-0f6e-4467-911d-f968ad35cb07)](https://codebeat.co/projects/github-com-michelangelomo-go-aviation-main)
 ![Go](https://github.com/michelangelomo/go-aviation/actions/workflows/go.yml/badge.svg)
 
 **:construction: go-aviation is still under development**

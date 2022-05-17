@@ -25,17 +25,38 @@ type Client struct {
 	BaseURL url.URL
 
 	// Services used to interact with the AWC API.
-	Metar   *MetarService
-	Taf     *TafService
+	Metar *MetarService
+	Taf   *TafService
 }
 
 type service struct {
 	client *Client
 }
 
-// Response is the AWC API response.
+// Response is the AWG API response.
 type Response struct {
 	*http.Response
+}
+
+// AWG is the AWG metadata response.
+type AWG struct {
+	DataSource  DataSource `xml:"data_source,omitempty"`
+	Request     Request    `xml:"request,omitempty"`
+	Errors      string     `xml:"errors,omitempty"`
+	Warnings    string     `xml:"warnings,omitempty"`
+	TimeTakenMs string     `xml:"time_taken_ms,omitempty"`
+}
+
+// DataSource is part of AWG object.
+type DataSource struct {
+	Text string `xml:",chardata"`
+	Name string `xml:"name,attr,omitempty"`
+}
+
+// Request is part of AWG object.
+type Request struct {
+	Text string `xml:",chardata"`
+	Type string `xml:"type,attr,omitempty"`
 }
 
 // Options provides all fields expected by Aviation Weather Center
@@ -44,12 +65,12 @@ type Response struct {
 // * https://www.aviationweather.gov/dataserver/example?datatype=taf
 // * https://www.aviationweather.gov/dataserver/example?datatype=sigmet
 type Options struct {
-	Stations                 *string    `json:"stationString,omitempty"`
-	HoursBeforeNow           *float32   `json:"hoursBeforeNow,omitempty,string"`
-	MostRecent               *bool      `json:"mostRecent,omitempty,string"`
-	StartTime                *string    `json:"startTime,omitempty"`
-	EndTime                  *string    `json:"endTime,omitempty"`
-	MostRecentForEachStation *string    `json:"mostRecentForEachStation,omitempty,string"`
+	Stations                 *string  `json:"stationString,omitempty"`
+	HoursBeforeNow           *float32 `json:"hoursBeforeNow,omitempty,string"`
+	MostRecent               *bool    `json:"mostRecent,omitempty,string"`
+	StartTime                *string  `json:"startTime,omitempty"`
+	EndTime                  *string  `json:"endTime,omitempty"`
+	MostRecentForEachStation *string  `json:"mostRecentForEachStation,omitempty"`
 }
 
 // SetStations populates Options field.
