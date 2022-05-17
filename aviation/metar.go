@@ -6,34 +6,18 @@ import (
 
 // Metar represents a metar object.
 type Metar struct {
-	DataSource  DataSource `xml:"data_source,omitempty"`
-	Request     Request    `xml:"request,omitempty"`
-	Errors      string     `xml:"errors,omitempty"`
-	Warnings    string     `xml:"warnings,omitempty"`
-	TimeTakenMs string     `xml:"time_taken_ms,omitempty"`
-	Data        Data       `xml:"data,omitempty"`
+	AWG
+	Data MetarData `xml:"data,omitempty"`
 }
 
-// DataSource is part of metar object.
-type DataSource struct {
-	Text string `xml:",chardata"`
-	Name string `xml:"name,attr,omitempty"`
-}
-
-// Request is part of metar object.
-type Request struct {
-	Text string `xml:",chardata"`
-	Type string `xml:"type,attr,omitempty"`
-}
-
-// Data is part of metar object.
-type Data struct {
+// MetarData is part of metar object.
+type MetarData struct {
 	Text       string  `xml:",chardata"`
 	NumResults string  `xml:"num_results,attr,omitempty"`
 	METAR      []METAR `xml:"METAR,omitempty"`
 }
 
-// METAR is part of data object.
+// METAR is part of MetarData object.
 type METAR struct {
 	Text                string              `xml:",chardata"`
 	RawText             string              `xml:"raw_text,omitempty"`
@@ -66,6 +50,7 @@ type SkyCondition struct {
 	Text           string `xml:",chardata"`
 	SkyCover       string `xml:"sky_cover,attr,omitempty"`
 	CloudBaseFtAgl string `xml:"cloud_base_ft_agl,attr,omitempty"`
+	CloudType      string `xml:"cloud_type,attr"`
 }
 
 // MetarService manages communication with the Metar API of client.

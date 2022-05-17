@@ -25,7 +25,7 @@ func TestMetarService_Get(t *testing.T) {
 	}
 
 	want := &Metar{
-		Data: Data{
+		Data: MetarData{
 			NumResults: "1",
 			METAR: []METAR{
 				{

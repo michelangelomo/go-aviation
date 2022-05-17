@@ -38,6 +38,27 @@ type Response struct {
 	*http.Response
 }
 
+// Response is the AWC metadata response.
+type AWG struct {
+	DataSource  DataSource `xml:"data_source,omitempty"`
+	Request     Request    `xml:"request,omitempty"`
+	Errors      string     `xml:"errors,omitempty"`
+	Warnings    string     `xml:"warnings,omitempty"`
+	TimeTakenMs string     `xml:"time_taken_ms,omitempty"`
+}
+
+// DataSource is part of AWG object.
+type DataSource struct {
+	Text string `xml:",chardata"`
+	Name string `xml:"name,attr,omitempty"`
+}
+
+// Request is part of AWG object.
+type Request struct {
+	Text string `xml:",chardata"`
+	Type string `xml:"type,attr,omitempty"`
+}
+
 // Options provides all fields expected by Aviation Weather Center
 // The list of the available parameters is available at:
 // * https://www.aviationweather.gov/dataserver/example?datatype=metar
@@ -49,7 +70,7 @@ type Options struct {
 	MostRecent               *bool    `json:"mostRecent,omitempty,string"`
 	StartTime                *string  `json:"startTime,omitempty"`
 	EndTime                  *string  `json:"endTime,omitempty"`
-	MostRecentForEachStation *string  `json:"mostRecentForEachStation,omitempty,string"`
+	MostRecentForEachStation *string  `json:"mostRecentForEachStation,omitempty"`
 }
 
 // SetStations populates Options field.
